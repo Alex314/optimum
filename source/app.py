@@ -5,8 +5,6 @@ from flask import request, jsonify
 from hyperApp import HyperApp
 
 
-# PARAMS = load_params('params.json')
-
 app = HyperApp(__name__)
 app.logger.setLevel(logging.INFO)
 
@@ -31,16 +29,18 @@ def experiment():
         return jsonify(ans)
 
 
-@app.route("/experiment/<experiment_id>", methods=['GET', 'POST', 'DELETE'])
+@app.route("/experiment/<experiment_id>", methods=['GET', 'DELETE'])
 def particular_experiment(experiment_id):
     if experiment_id not in app.experiments:
         return {'status': 'Experiment with such ID not Found'}, 404
 
     if request.method == 'DELETE':  # Delete experiment
-        ...
+        del app.experiments[experiment_id]
+        app.logger.info(f'Experiment {experiment_id} deleted')
+        return {'status': 'OK'}
     else:  # Get status and current best point for experiment
-        ...
-    return {'status': 'OK'}
+        status = app.get_status(experiment_id)
+        return status
 
 
 @app.route("/experiment/<experiment_id>/ask", methods=['GET'])

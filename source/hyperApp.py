@@ -52,3 +52,11 @@ class HyperApp(Flask):
         optimizer = self.experiments[experiment_id]['optimizer']
         candidate = optimizer.parametrization.spawn_child(new_value=point)
         optimizer.tell(candidate, value)
+
+    def get_status(self, experiment_id):
+        optimizer = self.experiments[experiment_id]['optimizer']
+        ans = {
+            'n evaluated points': len(optimizer.archive),
+            'recommended point': optimizer.recommend().value,
+        }
+        return ans
