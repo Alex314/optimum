@@ -21,10 +21,10 @@ class HyperApp(Flask):
         ng_params = {}
         for parameter_name, specs in params.items():
             if not isinstance(specs, dict):
-                raise ValueError(f'Parameter specifications should be dict for {parameter_name}')
+                raise ValueError(f'Parameter specifications should be dict for {parameter_name!r}')
             param_type = specs.get('type', None)
             if param_type is None:
-                raise ValueError()
+                raise ValueError(f'No type found for parameter {parameter_name!r}')
             param_attributes = specs.get('parameters', {})
 
             try:
@@ -47,3 +47,8 @@ class HyperApp(Flask):
         optimizer = self.experiments[experiment_id]['optimizer']
         point = optimizer.ask()
         return point.value
+
+    def tell(self, experiment_id, point, value):
+        optimizer = self.experiments[experiment_id]['optimizer']
+        candidate = optimizer.parametrization.spawn_child(new_value=point)
+        optimizer.tell(candidate, value)

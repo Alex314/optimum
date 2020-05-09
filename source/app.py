@@ -36,9 +36,7 @@ def particular_experiment(experiment_id):
     if experiment_id not in app.experiments:
         return {'status': 'Experiment with such ID not Found'}, 404
 
-    if request.method == 'POST':  # Tell value at some point
-        ...
-    elif request.method == 'DELETE':  # Delete experiment
+    if request.method == 'DELETE':  # Delete experiment
         ...
     else:  # Get status and current best point for experiment
         ...
@@ -52,6 +50,17 @@ def ask(experiment_id):
     point = app.ask(experiment_id)
     app.logger.info(f'Point to return: {point}')
     return point
+
+
+@app.route("/experiment/<experiment_id>/tell", methods=['POST'])
+def tell(experiment_id):
+    if experiment_id not in app.experiments:
+        return {'status': f'Experiment with ID {experiment_id} not Found'}, 404
+    point = request.json['point']
+    value = request.json['value']
+    app.logger.info(f'Tell value: {value} at point: {point}')
+    app.tell(experiment_id, point, value)
+    return {'status': 'OK'}
 
 
 if __name__ == '__main__':
