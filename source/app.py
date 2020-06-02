@@ -1,6 +1,6 @@
 import logging
 
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from hyperApp import HyperApp
 
@@ -61,6 +61,23 @@ def tell(experiment_id):
     app.logger.info(f'Tell value: {value} at point: {point}')
     app.tell(experiment_id, point, value)
     return {'status': 'OK'}
+
+
+@app.route("/dashboard", methods=['GET'])
+def dashboard():
+    experiments = [[experiment_id, params['optimizer_title']]
+                   for experiment_id, params in app.experiments.items()]
+    return render_template('experiments.html', experiments=experiments)
+
+
+@app.route("/dashboard/<experiment_id>", methods=['GET'])
+def dashboard_experiment(experiment_id):
+    app.logger.info(f"Visualization requested for {experiment_id}")
+    if experiment_id not in app.experiments:
+        return f'Experiment with ID {experiment_id} not Found', 404
+    target_chart = app.get_target_chart(experiment_id)
+    charts = app.get_charts(experiment_id)
+    return render_template('charts.html', target_chart=target_chart, charts=charts)
 
 
 if __name__ == '__main__':

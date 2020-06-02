@@ -1,0 +1,18 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Charts</title>
+</head>
+
+<body>
+    <div>
+        <img style="width:100%" src="{{ target_chart }}">
+    </div>
+    <hr>
+    {% for chart in charts %}
+        <div>
+            <img style="width:100%" src="{{ chart }}">
+        </div>
+    {% endfor %}
+</body>
+
+
