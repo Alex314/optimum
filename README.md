@@ -81,7 +81,7 @@ Get point of hyperparameters space for experiment with id <experiment_id> to inv
 POST /experiment/<experiment_id>/tell
 {
   "point": {
-    <param_name>: <float_number>,
+    <param_name>: <value>,
     ...
   },
   "value": <float_number>
