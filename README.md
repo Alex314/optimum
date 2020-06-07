@@ -56,6 +56,15 @@ Returns <experiment_id> (string)
 ```
 GET /experiment/<experiment_id>
 ```
+```
+{
+  "n evaluated points": <int_number>,
+  "recommended point": {
+    <param_name>: <float_number>,
+    ...
+  }
+}
+```
 Get status of experiment with id <experiment_id>
 
 ```
