@@ -56,6 +56,15 @@ Returns <experiment_id> (string)
 ```
 GET /experiment/<experiment_id>
 ```
+```
+{
+  "n evaluated points": <int_number>,
+  "recommended point": {
+    <param_name>: <float_number>,
+    ...
+  }
+}
+```
 Get status of experiment with id <experiment_id>
 
 ```
@@ -72,7 +81,7 @@ Get point of hyperparameters space for experiment with id <experiment_id> to inv
 POST /experiment/<experiment_id>/tell
 {
   "point": {
-    <param_name>: <float_number>,
+    <param_name>: <value>,
     ...
   },
   "value": <float_number>
